@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
         }
 
         CoroutineScope(Dispatchers.IO).launch {
+
             delay(3000)
             showSplashScreen = false
         }
