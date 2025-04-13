@@ -19,11 +19,13 @@ import androidx.core.animation.addListener
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.oakil.fooddeliveryapplication.ui.theme.FoodDeliveryApplicationTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     var showSplashScreen = true
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +70,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+
+
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
