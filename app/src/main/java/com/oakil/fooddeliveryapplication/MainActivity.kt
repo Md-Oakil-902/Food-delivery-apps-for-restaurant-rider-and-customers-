@@ -3,6 +3,7 @@ package com.oakil.fooddeliveryapplication
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import androidx.activity.ComponentActivity
@@ -18,23 +19,28 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.animation.addListener
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.oakil.fooddeliveryapplication.Data.FoodApi
 import com.oakil.fooddeliveryapplication.ui.theme.FoodDeliveryApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     var showSplashScreen = true
+
+    @Inject
+    lateinit var foodApi: FoodApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 showSplashScreen
             }
-     setOnExitAnimationListener{
-                screen->
+            setOnExitAnimationListener { screen ->
                 val zoomx = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_X, 0.5f, 0f)
                 val zoomY = ObjectAnimator.ofFloat(screen.iconView, View.SCALE_Y, 0.5f, 0f)
 
@@ -50,44 +56,46 @@ class MainActivity : ComponentActivity() {
                 animatorSet.start()
 
             }
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            FoodDeliveryApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Oakil",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            super.onCreate(savedInstanceState)
+            enableEdgeToEdge()
+            setContent {
+                FoodDeliveryApplicationTheme {
+                    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                        Greeting(
+                            name = "Oakil",
+                            modifier = Modifier.padding(innerPadding)
+                        )
+                    }
                 }
             }
+
+            if (::foodApi.isInitialized) {
+                Log.d("MainActivity", "FoodApi initialized")
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                delay(3000)
+                showSplashScreen = false
+            }
         }
+    }
 
-        CoroutineScope(Dispatchers.IO).launch {
 
-            delay(3000)
-            showSplashScreen = false
+    @Composable
+    fun Greeting(name: String, modifier: Modifier = Modifier) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
+    }
+
+
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        FoodDeliveryApplicationTheme {
+            Greeting("Android")
         }
     }
 }
-
-
-
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FoodDeliveryApplicationTheme {
-        Greeting("Android")
-    }
-}}
