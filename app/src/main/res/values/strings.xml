@@ -3,4 +3,8 @@
     <string name="skip">Skip</string>
     <string name="welcome">Welcome to</string>
     <string name="foodhub_description">Your favorite foods delivered\nfast at your door.</string>
+    <string name="already_have_account">Already have an account? Login here..</string>
+    <string name="sign_with_phone">Sign with phone number</string>
+    <string name="facebook">Facebook</string>
+    <string name="Google">Google</string>
 </resources>
