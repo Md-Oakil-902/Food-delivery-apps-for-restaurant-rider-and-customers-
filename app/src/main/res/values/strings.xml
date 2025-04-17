@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">Food Delivery application</string>
+    <string name="app_name">Food Hub</string>
     <string name="skip">Skip</string>
+    <string name="welcome">Welcome to</string>
+    <string name="foodhub_description">Your favorite foods delivered\nfast at your door.</string>
 </resources>
