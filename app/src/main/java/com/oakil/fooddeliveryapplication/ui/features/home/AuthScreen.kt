@@ -3,12 +3,14 @@ package com.oakil.fooddeliveryapplication.ui.features.home
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +35,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.oakil.fooddeliveryapplication.R
+import com.oakil.fooddeliveryapplication.ui.GroupSocialButtons
+import com.oakil.fooddeliveryapplication.ui.SocialButton
 import com.oakil.fooddeliveryapplication.ui.theme.Orange
 import com.oakil.fooddeliveryapplication.ui.theme.White
 
@@ -116,47 +120,8 @@ fun AuthScreen() {
                 .align(Alignment.BottomCenter)
                 .padding(16.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(containerColor = White),
-                    shape = RoundedCornerShape(32.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(start = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_facebook),
-                            contentDescription = "google",
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text(text = stringResource(R.string.facebook), color = Color.Black)
-                    }
-                }
 
-            Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(containerColor = White),
-                    shape = RoundedCornerShape(32.dp)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(start = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.ic_google),
-                            contentDescription = "google",
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text(text = stringResource(R.string.Google), color = Color.Black)
-                    }
-                }
-
-
-            }
+            GroupSocialButtons(onFacebookClick = {}, onGoogleClick = {})
 
             Button(
                 onClick = {},
@@ -168,7 +133,7 @@ fun AuthScreen() {
                 Text(text = stringResource(R.string.sign_with_phone), color = White)
             }
 
-            TextButton(onClick = {}, modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            TextButton(onClick = {}, modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 50.dp)) {
                 Text(text = stringResource(id = R.string.already_have_account), color = Color.White)
             }
 
