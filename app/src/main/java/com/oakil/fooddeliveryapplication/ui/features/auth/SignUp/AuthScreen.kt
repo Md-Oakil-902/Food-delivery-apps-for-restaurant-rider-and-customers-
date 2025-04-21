@@ -1,18 +1,13 @@
-package com.oakil.fooddeliveryapplication.ui.features.home
+package com.oakil.fooddeliveryapplication.ui.features.auth.SignUp
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -36,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.oakil.fooddeliveryapplication.R
 import com.oakil.fooddeliveryapplication.ui.GroupSocialButtons
-import com.oakil.fooddeliveryapplication.ui.SocialButton
 import com.oakil.fooddeliveryapplication.ui.theme.Orange
 import com.oakil.fooddeliveryapplication.ui.theme.White
 
