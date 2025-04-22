@@ -10,12 +10,12 @@ import com.oakil.fooddeliveryapplication.R
 
 val poppinsFontFamily = FontFamily(
 
-    Font(R.font.poppins_black, FontWeight.Normal),
+    Font(R.font.poppins_black, FontWeight.Black),
     Font(R.font.poppins_light, FontWeight.Medium),
     Font(R.font.poppins_semibold, FontWeight.SemiBold),
     Font(R.font.poppins_thin, FontWeight.Thin),
     Font(R.font.poppins_italic, FontWeight.Light),
-    Font(R.font.poppins_regular, FontWeight.Black)
+    Font(R.font.poppins_regular, FontWeight.Normal)
 )
 
 // Set of Material typography styles to start with

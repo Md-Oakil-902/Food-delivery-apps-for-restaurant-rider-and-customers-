@@ -20,6 +20,7 @@ import androidx.core.animation.addListener
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.oakil.fooddeliveryapplication.Data.FoodApi
 import com.oakil.fooddeliveryapplication.ui.features.auth.SignUp.AuthScreen
+import com.oakil.fooddeliveryapplication.ui.features.auth.SignUp.SignUpScreen
 import com.oakil.fooddeliveryapplication.ui.theme.FoodDeliveryApplicationTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
                 FoodDeliveryApplicationTheme {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                         Box(modifier = Modifier.padding(innerPadding))
-                        AuthScreen()
+                        SignUpScreen()
                     }
                 }
             }
