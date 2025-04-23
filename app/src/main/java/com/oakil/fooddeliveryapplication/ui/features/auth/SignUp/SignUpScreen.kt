@@ -122,9 +122,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             TextButton(onClick = {}){
                 Text(text = stringResource(R.string.already_have_account_login),
                     textAlign = TextAlign.Center)
-
             }
-
             Spacer(modifier = Modifier.size(16.dp))
             GroupSocialButtons(color = Color.Black, onFacebookClick = {}, onGoogleClick = {})
             Spacer(modifier = Modifier.padding(bottom = 80.dp))
