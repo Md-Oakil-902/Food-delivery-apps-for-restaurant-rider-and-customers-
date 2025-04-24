@@ -42,13 +42,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.oakil.fooddeliveryapplication.R
 import com.oakil.fooddeliveryapplication.ui.FoodHubTextField
 import com.oakil.fooddeliveryapplication.ui.GroupSocialButtons
 import com.oakil.fooddeliveryapplication.ui.theme.Orange
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
+fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
 
     var name by remember {
         mutableStateOf("")

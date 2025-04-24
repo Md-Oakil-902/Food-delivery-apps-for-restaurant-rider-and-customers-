@@ -1,6 +1,7 @@
 package com.oakil.fooddeliveryapplication.ui.features.auth.SignUp
 
 import androidx.lifecycle.ViewModel
+import com.oakil.fooddeliveryapplication.Data.FoodApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor() : ViewModel(){
+class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel(){
 
     private val _uiState = MutableStateFlow<SignUpEvent>(SignUpEvent.Nothing)
     val uiState = _uiState.asStateFlow()
@@ -27,6 +28,7 @@ class SignUpViewModel @Inject constructor() : ViewModel(){
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
 
+
     fun onNameChange(name:String){
         _name.value = name
     }
@@ -40,9 +42,14 @@ class SignUpViewModel @Inject constructor() : ViewModel(){
 
     }
 
-    fun Change(){
+    fun onSignUpClick(){
 
+        _uiState.value = SignUpEvent.Loading
+        _uiState.value = SignUpEvent.Success
+        _navigationEvent.tryEmit(SignUpNavigationEvent.NavigationToHome)
     }
+
+
 
 
     sealed class SignUpNavigationEvent{
