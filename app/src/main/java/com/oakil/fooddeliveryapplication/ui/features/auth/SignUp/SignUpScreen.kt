@@ -1,5 +1,12 @@
 package com.oakil.fooddeliveryapplication.ui.features.auth.SignUp
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -15,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -23,6 +31,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.oakil.fooddeliveryapplication.R
 import com.oakil.fooddeliveryapplication.ui.FoodHubTextField
 import com.oakil.fooddeliveryapplication.ui.GroupSocialButtons
@@ -51,15 +61,32 @@ import com.oakil.fooddeliveryapplication.ui.theme.Orange
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
 
-    var name by remember {
-        mutableStateOf("")
+
+    val name = viewModel.name.collectAsStateWithLifecycle()
+    val email = viewModel.email.collectAsStateWithLifecycle()
+    val password = viewModel.password.collectAsStateWithLifecycle()
+    val errorMessage = remember { mutableStateOf<String?>(null) }
+    val loading = remember { mutableStateOf(false) }
+
+    val uiState = viewModel.uiState.collectAsState()
+    when (uiState.value) {
+
+        is SignUpViewModel.SignUpEvent.Error -> {
+            loading.value = false
+            errorMessage.value = "Failed"
+        }
+
+        is SignUpViewModel.SignUpEvent.Loading -> {
+            loading.value = true
+            errorMessage.value = null
+        }
+
+        else -> {
+            loading.value = false
+            errorMessage.value = null
+        }
     }
-    var email by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
-    }
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -76,29 +103,34 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
         ) {
             Box(modifier = Modifier.weight(1f))
 
-           Text(text = stringResource(R.string.sign_up),
-               fontWeight = FontWeight.Bold,
-               fontSize = 35.sp, modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally))
+            Text(
+                text = stringResource(R.string.sign_up),
+                fontWeight = FontWeight.Bold,
+                fontSize = 35.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+            )
 
             FoodHubTextField(
-                value = name,
-                onValueChange = {name = it},
+                value = name.value,
+                onValueChange = { viewModel.onNameChange(it) },
                 label = {
                     Text(stringResource(R.string.full_name))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
             FoodHubTextField(
-                value = email,
-                onValueChange = {email = it},
+                value = email.value,
+                onValueChange = { viewModel.onEmailChange(it) },
                 label = {
                     Text(stringResource(R.string.email))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
             FoodHubTextField(
-                value = password,
-                onValueChange = {password = it },
+                value = password.value,
+                onValueChange = { viewModel.onPasswordChange(it) },
                 label = {
                     Text(text = stringResource(R.string.password))
                 },
@@ -108,21 +140,44 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
                     Image(painter = painterResource(R.drawable.ic_eye), contentDescription = null)
                 }
             )
-            Spacer(modifier.padding(top = 20.dp))
+            Spacer(modifier = Modifier.padding(top = 20.dp))
+
             Button(
-                onClick = {},
+                onClick = viewModel::onSignUpClick,
                 modifier = Modifier.height(48.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Orange)
             ) {
-                Text(
-                    text = stringResource(R.string.sign_up),
-                    modifier = Modifier.padding(horizontal = 32.dp)
-                )
+                Box {
+                    AnimatedContent(targetState = loading.value,
+                        transitionSpec = {
+                            fadeIn(animationSpec = tween(300)) + scaleIn(initialScale = 0.8f) togetherWith fadeOut(
+                                animationSpec = tween(300)
+                            ) + scaleOut(targetScale = 0.8f)
+                        }
+                    ) { targetState ->
+                        if (targetState) {
+                            CircularProgressIndicator(
+                                color = Color.White,
+                                modifier = Modifier.size(24.dp)
+                            )
+
+                        } else {
+                            Text(
+                                text = stringResource(R.string.sign_up),
+                                modifier = Modifier.padding(horizontal = 32.dp)
+                            )
+                        }
+                    }
+                }
+
+
             }
             Spacer(modifier = Modifier.size(16.dp))
-            TextButton(onClick = {}){
-                Text(text = stringResource(R.string.already_have_account_login),
-                    textAlign = TextAlign.Center)
+            TextButton(onClick = {}) {
+                Text(
+                    text = stringResource(R.string.already_have_account_login),
+                    textAlign = TextAlign.Center
+                )
             }
             Spacer(modifier = Modifier.size(16.dp))
             GroupSocialButtons(color = Color.Black, onFacebookClick = {}, onGoogleClick = {})

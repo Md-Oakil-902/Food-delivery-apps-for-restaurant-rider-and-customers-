@@ -1,12 +1,15 @@
 package com.oakil.fooddeliveryapplication.ui.features.auth.SignUp
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.oakil.fooddeliveryapplication.Data.FoodApi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -39,17 +42,16 @@ class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel(){
 
     fun onPasswordChange(password: String){
         _password.value = password
-
     }
 
     fun onSignUpClick(){
-
-        _uiState.value = SignUpEvent.Loading
-        _uiState.value = SignUpEvent.Success
-        _navigationEvent.tryEmit(SignUpNavigationEvent.NavigationToHome)
+        viewModelScope.launch{
+            _uiState.value = SignUpEvent.Loading
+            delay(2000)
+            _uiState.value = SignUpEvent.Success
+            _navigationEvent.tryEmit(SignUpNavigationEvent.NavigationToHome)
+        }
     }
-
-
 
 
     sealed class SignUpNavigationEvent{
