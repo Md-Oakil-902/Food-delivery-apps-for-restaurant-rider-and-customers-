@@ -1,5 +1,6 @@
 package com.oakil.fooddeliveryapplication.ui.features.auth.SignUp
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -31,6 +32,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -57,6 +60,7 @@ import com.oakil.fooddeliveryapplication.R
 import com.oakil.fooddeliveryapplication.ui.FoodHubTextField
 import com.oakil.fooddeliveryapplication.ui.GroupSocialButtons
 import com.oakil.fooddeliveryapplication.ui.theme.Orange
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
@@ -84,6 +88,20 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
         else -> {
             loading.value = false
             errorMessage.value = null
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.navigationEvent.collectLatest { event ->
+            when (event) {
+                is SignUpViewModel.SignUpNavigationEvent.NavigationToHome -> {
+                    Toast.makeText(context, "Sign up successful", Toast.LENGTH_SHORT).show()
+                }
+                else->{
+                }
+            }
+
         }
     }
 
@@ -141,7 +159,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
                 }
             )
             Spacer(modifier = Modifier.padding(top = 20.dp))
-
+            Text(text = errorMessage.value ?: "", color = Color.Red)
             Button(
                 onClick = viewModel::onSignUpClick,
                 modifier = Modifier.height(48.dp),
@@ -173,6 +191,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
 
             }
             Spacer(modifier = Modifier.size(16.dp))
+
             TextButton(onClick = {}) {
                 Text(
                     text = stringResource(R.string.already_have_account_login),

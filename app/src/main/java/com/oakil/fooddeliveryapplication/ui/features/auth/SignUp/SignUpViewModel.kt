@@ -3,6 +3,7 @@ package com.oakil.fooddeliveryapplication.ui.features.auth.SignUp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.oakil.fooddeliveryapplication.Data.FoodApi
+import com.oakil.fooddeliveryapplication.Data.models.SignUpRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel(){
+class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SignUpEvent>(SignUpEvent.Nothing)
     val uiState = _uiState.asStateFlow()
@@ -32,34 +33,48 @@ class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel(){
     val password = _password.asStateFlow()
 
 
-    fun onNameChange(name:String){
+    fun onNameChange(name: String) {
         _name.value = name
     }
 
-    fun onEmailChange(email: String){
+    fun onEmailChange(email: String) {
         _email.value = email
     }
 
-    fun onPasswordChange(password: String){
+    fun onPasswordChange(password: String) {
         _password.value = password
     }
 
-    fun onSignUpClick(){
-        viewModelScope.launch{
+    fun onSignUpClick() {
+        viewModelScope.launch {
             _uiState.value = SignUpEvent.Loading
-            delay(2000)
-            _uiState.value = SignUpEvent.Success
-            _navigationEvent.tryEmit(SignUpNavigationEvent.NavigationToHome)
+            try {
+                val response = foodApi.signUp(
+                    SignUpRequest(
+                        name = name.value,
+                        email = email.value,
+                        password = password.value
+                    )
+                )
+                if (response.token.isNotEmpty()) {
+                    _uiState.value = SignUpEvent.Success
+                    _navigationEvent.emit(SignUpNavigationEvent.NavigationToHome)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _uiState.value = SignUpEvent.Error
+            }
+
         }
     }
 
 
-    sealed class SignUpNavigationEvent{
+    sealed class SignUpNavigationEvent {
         object NavigationToLogin : SignUpNavigationEvent()
         object NavigationToHome : SignUpNavigationEvent()
     }
 
-    sealed class SignUpEvent{
+    sealed class SignUpEvent {
         object Nothing : SignUpEvent()
         object Loading : SignUpEvent()
         object Error : SignUpEvent()
