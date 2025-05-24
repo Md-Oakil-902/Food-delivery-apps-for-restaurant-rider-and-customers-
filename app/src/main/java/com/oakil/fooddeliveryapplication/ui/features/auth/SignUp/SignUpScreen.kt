@@ -178,8 +178,8 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
                                 color = Color.White,
                                 modifier = Modifier.size(24.dp)
                             )
-
                         } else {
+                            
                             Text(
                                 text = stringResource(R.string.sign_up),
                                 modifier = Modifier.padding(horizontal = 32.dp)
@@ -187,9 +187,9 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
                         }
                     }
                 }
-
-
             }
+ 
+            
             Spacer(modifier = Modifier.size(16.dp))
 
             TextButton(onClick = {}) {

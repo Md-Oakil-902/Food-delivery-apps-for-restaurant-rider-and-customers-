@@ -69,6 +69,7 @@ class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel() {
     }
 
 
+
     sealed class SignUpNavigationEvent {
         object NavigationToLogin : SignUpNavigationEvent()
         object NavigationToHome : SignUpNavigationEvent()
@@ -82,3 +83,5 @@ class SignUpViewModel @Inject constructor(val foodApi: FoodApi) : ViewModel() {
     }
 
 }
+
+
